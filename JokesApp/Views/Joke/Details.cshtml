@@ -3,3 +3,16 @@
 *@
 @{
 }
+@{
+    ViewData["Title"] = "Joke Details";
+}
+
+<h2>Joke Details</h2>
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Category</h5>
+        <p class="card-text">@Model.JokeContent</p>
+        <a href="@Url.Action("Index", "Joke")" class="btn btn-primary">Back to List</a>
+    </div>
+</div>
