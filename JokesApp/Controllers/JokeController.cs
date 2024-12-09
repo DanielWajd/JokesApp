@@ -18,6 +18,11 @@ namespace JokesApp.Controllers
             IEnumerable<Joke> jokes = await _jokeService.GetAll();
             return View(jokes);
         }
+        public async Task<IActionResult> Details(int id)
+        {
+            Joke joke = await _jokeService.GetByIdAsync(id);
+            return View(joke);
+        }
         public IActionResult Create()
         {
             return View();
