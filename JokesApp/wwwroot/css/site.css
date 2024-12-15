@@ -1,22 +1,63 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+/*Do zaznaczania oceny*/
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem; 
+}
+.star {
+    font-size: 2.5rem; 
+    color: #ddd; 
+    transition: color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.star.selected {
+    color: #f39c12; 
+}
+
+.star-rating.readonly .star {
+    cursor: default; 
+}
+
+
+/*Wyswietlanie sredniej oceny*/
+
+.star-average {
+    font-size: 1.5rem;
+    color: gray;
+}
+
+.star-average.selected {
+    color: #f39c12;
+}
+
+
+
+
+    

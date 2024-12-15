@@ -1,18 +1,48 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@{
-    ViewData["Title"] = "Joke Details";
-}
+﻿@using JokesApp.ViewModels
+@model JokeDetailsViewModel
 
 <h2>Joke Details</h2>
 
-<div class="card" style="width: 18rem;">
+<div class="card w-100 shadow-sm">
     <div class="card-body">
-        <h5 class="card-title">@Model.Category</h5>
-        <p class="card-text">@Model.JokeContent</p>
-        <a href="@Url.Action("Index", "Joke")" class="btn btn-primary">Back to List</a>
+        <h5 class="card-title mb-2">@Model.Category</h5>
+        <p class="card-text mb-0">@Model.JokeContent</p>
+        <div class="rating-section mt-3 d-flex justify-content-between align-items-center border-top pt-2">
+            <div class="star-average-rating">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <span class="star-average @((i <= (int)Model.AverageRating) ? "selected" : "")">&#9733;</span>
+                }
+            </div>
+            <div>
+                <span class="rating-value">@Model.AverageRating</span>
+                <span class="rating-count">(@Model.RatingsCount)</span>
+            </div>
+        </div>
     </div>
 </div>
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Rate this Joke!</h2>
+    <form method="post" asp-controller="Rating" asp-action="Create">
+        <input type="hidden" name="JokeId" value="@Model.JokeId" />
+        <input type="hidden" id="RatingValue" name="RatingValue" value="0" />
+
+        <div class="star-rating">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div>
+
+        <button type="submit" class="btn btn-success mt-2">Submit Rating</button>
+    </form>
+}
+else
+{
+    <h2>Log in to rate this joke! </h2>
+}
+
+
+<script src="/js/rating.js"></script>
