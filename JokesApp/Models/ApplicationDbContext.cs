@@ -10,5 +10,7 @@ namespace JokesApp.Models
             
         }
         public DbSet<Joke> Jokes { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<UserJoke> UserJokes { get; set; }
     }
 }

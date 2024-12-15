@@ -25,7 +25,7 @@ namespace JokesApp.Repository
 
         public async Task<IEnumerable<Joke>> GetAll()
         {
-            return await _context.Jokes.ToListAsync();
+            return await _context.Jokes.Include(j=>j.Ratings).ToListAsync();
         }
 
         public async Task<Joke> GetByIdAsync(int id)
