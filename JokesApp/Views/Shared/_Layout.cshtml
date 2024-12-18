@@ -39,6 +39,11 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <li>
+                                        <form asp-area="" asp-controller="Account" asp-action="Details" class="d-inline">
+                                            <button type="submit" class="dropdown-item">Profile</button>
+                                        </form>
+                                    </li>
+                                    <li>
                                         <form asp-area="" asp-controller="Account" asp-action="Logout" class="d-inline">
                                             <button type="submit" class="dropdown-item">Logout</button>
                                         </form>

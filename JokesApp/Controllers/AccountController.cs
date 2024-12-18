@@ -1,4 +1,5 @@
 ﻿using CarRentwithDB.Data;
+using JokesApp.Data;
 using JokesApp.Data.Enum;
 using JokesApp.Interfaces;
 using JokesApp.Models;
@@ -13,13 +14,15 @@ namespace JokesApp.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IUserService _userService;
+        private readonly IHttpContextAccessor _contextAccessor;
 
         public AccountController(IUserService userService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            ApplicationDbContext context)
+            ApplicationDbContext context, IHttpContextAccessor contextAccessor)
         {
             _userService = userService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _contextAccessor = contextAccessor;
         }
         //Get
         public IActionResult Login()
@@ -37,18 +40,18 @@ namespace JokesApp.Controllers
 
             if (user != null)
             {
-                //User is found, check password
+                
                 var passwordCheck = await _userManager.CheckPasswordAsync(user, loginViewModel.Password);
                 if (passwordCheck)
                 {
-                    //Password correct, sign in
+                    
                     var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Index", "Joke");
                     }
                 }
-                //When Password is incorrect
+                
                 TempData["Error"] = "Złe hasło";
                 return View(loginViewModel);
             }
@@ -97,6 +100,26 @@ namespace JokesApp.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> Details()
+        {
+            var curUser = _contextAccessor.HttpContext.User.GetUserId();
+            var user = await _userService.GetUserById(curUser);
+            if (curUser == null)
+            {
+                return NotFound("User not found");
+            }
+            var userDetailsViewModel = new UserDetailsViewModel
+            {
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+                Phone = user.Phone,
+                UserType = user.UserType,
+                Ratings = user.Ratings ?? new List<Rating>(),
+                UserJokes = user.UserJokes ?? new List<UserJoke>()
+            };
+            return View(userDetailsViewModel);
         }
     }
 }

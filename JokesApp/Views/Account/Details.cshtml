@@ -1,0 +1,68 @@
+﻿@using JokesApp.ViewModels
+@model UserDetailsViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h2>User Profile</h2>
+
+<div class="card w-75 shadow-sm mb-4">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name @Model.Surname</h5>
+        <p class="card-text"><strong>Email:</strong> @Model.Email</p>
+        <p class="card-text"><strong>Phone:</strong> @Model.Phone</p>
+        <p class="card-text"><strong>User Type:</strong> @Model.UserType</p>
+    </div>
+</div>
+<h3>User's Jokes</h3>
+@if (Model.UserJokes.Any())
+{
+    <div class="row g-3">
+    @foreach (var joke in Model.UserJokes)
+    {
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title text-primary fw-bold mb-3">@joke.Joke.Category</h5>
+                        <p class="card-text text-muted mb-4">@joke.Joke.JokeContent</p>
+                    </div>
+                    <div>
+                        <span class="text-muted small">Created at: @joke.Joke.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                        <a asp-controller="Joke" asp-action="Details" asp-route-id="@joke.Joke.Id" class="btn btn-outline-primary btn-sm d-block mt-3 w-100">
+                            View Details <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                        <a asp-controller="Joke" asp-action="Edit" asp-route-id="@joke.Joke.Id" class="btn btn-outline-primary btn-sm d-block mt-3 w-100">
+                            Edit Joke <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+}
+else
+{
+    <p>This user has not created any jokes yet.</p>
+}
+<h3>Ratings</h3>
+@if (Model.Ratings != null && Model.Ratings.Any())
+{
+    @foreach (var rating in Model.Ratings)
+    {
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <p class="card-title fw-bold">Rated joke: @rating.Joke.JokeContent</p>
+                <p class="card-text">Rating: @rating.RatingValue/5</p>
+                <p class="text-muted small">Rated on: @rating.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>This user has not rated any jokes yet.</p>
+}
+
