@@ -108,6 +108,7 @@ namespace JokesApp.Controllers
 
             return RedirectToAction("Index");
         }
+
         public async Task<IActionResult> Edit(int id)
         {
             var joke = await _jokeService.GetByIdAsync(id);
@@ -138,6 +139,34 @@ namespace JokesApp.Controllers
             joke.JokeContent = editJokeViewModel.JokeContent;
             joke.Category = editJokeViewModel.Category;
             _jokeService.UpdateAsync(joke);
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> ConfirmDelete(int id)
+        {
+            var joke = await _jokeService.GetByIdAsync(id);
+            if (joke == null)
+            {
+                return View("Error");
+            }
+            var viewModel = new JokeDetailsViewModel
+            {
+                JokeId = joke.Id,
+                JokeContent = joke.JokeContent,
+                Category = joke.Category,
+                CreatedAt = joke.CreatedAt
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var joke = await _jokeService.GetByIdAsync(id);
+            if (joke==null)
+            {
+                return View("Error");
+            }
+            await _jokeService.DeleteAsync(joke);
             return RedirectToAction("Index");
         }
     }
