@@ -55,12 +55,13 @@ namespace JokesApp.Controllers
                 Category = joke.Category,
                 CreatedAt = joke.CreatedAt,
                 AverageRating = averageRating,
-                RatingsCount = ratingsCount
+                RatingsCount = ratingsCount,
+                Ratings = ratings
             };
 
             return View(viewModel);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var curUserId = _contextAccessor.HttpContext.User.GetUserId();
             if (string.IsNullOrEmpty(curUserId))
@@ -105,6 +106,38 @@ namespace JokesApp.Controllers
             await _userJokeService.AddAsync(userJoke);
             await _userJokeService.SaveAsync();
 
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var joke = await _jokeService.GetByIdAsync(id);
+            if (joke == null)
+            {
+                return View("Error");
+            }
+            var createJokeViewModel = new EditJokeViewModel
+            {
+                Category = joke.Category,
+                JokeContent = joke.JokeContent
+            };
+            return View(createJokeViewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditJokeViewModel editJokeViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Cannot edit");
+                return View("Edit", editJokeViewModel);
+            }
+            var joke = await _jokeService.GetByIdAsync(id);
+            if (joke == null)
+            {
+                return View("Error");
+            }
+            joke.JokeContent = editJokeViewModel.JokeContent;
+            joke.Category = editJokeViewModel.Category;
+            _jokeService.UpdateAsync(joke);
             return RedirectToAction("Index");
         }
     }

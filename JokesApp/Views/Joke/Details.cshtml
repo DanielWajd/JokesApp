@@ -23,26 +23,55 @@
 </div>
 @if (User.Identity.IsAuthenticated)
 {
-    <h2>Rate this Joke!</h2>
-    <form method="post" asp-controller="Rating" asp-action="Create">
-        <input type="hidden" name="JokeId" value="@Model.JokeId" />
-        <input type="hidden" id="RatingValue" name="RatingValue" value="0" />
+    <div class="mt-4 text-center">
+        <h3>Rate this Joke!</h3>
+        <form method="post" asp-controller="Rating" asp-action="Create">
+            <input type="hidden" name="JokeId" value="@Model.JokeId" />
+            <input type="hidden" id="RatingValue" name="RatingValue" value="0" />
 
-        <div class="star-rating">
-            <span class="star" data-value="1">&#9733;</span>
-            <span class="star" data-value="2">&#9733;</span>
-            <span class="star" data-value="3">&#9733;</span>
-            <span class="star" data-value="4">&#9733;</span>
-            <span class="star" data-value="5">&#9733;</span>
-        </div>
+            <div class="star-rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
 
-        <button type="submit" class="btn btn-success mt-2">Submit Rating</button>
-    </form>
+            <button type="submit" class="btn btn-success mt-2">Submit Rating</button>
+        </form>
+    </div>
 }
 else
 {
     <h2>Log in to rate this joke! </h2>
 }
-
+<h3 class="mt-6">Ratings</h3>
+@if (Model.Ratings != null && Model.Ratings.Any())
+{
+    @foreach (var rating in Model.Ratings)
+    {
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-2">Imie</h5> 
+                <p class="card-text mb-0">Rating: @rating.RatingValue</p> 
+                <div class="rating-section mt-3 d-flex justify-content-between align-items-center border-top pt-2">
+                    <div class="star-average-rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span class="star-average @((i <= rating.RatingValue) ? "selected" : "")">&#9733;</span>
+                        }
+                    </div>
+                    <div>
+                        <span class="text-muted small">Rated on: @rating.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>No ratings available for this joke.</p>
+}
 
 <script src="/js/rating.js"></script>
