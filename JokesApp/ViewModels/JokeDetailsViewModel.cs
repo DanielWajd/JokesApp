@@ -15,6 +15,7 @@ namespace JokesApp.ViewModels
         public int? RatingValue { get; set; }
         public double AverageRating { get; set; } 
         public int RatingsCount { get; set; }
+        public string? Name { get; set; }
         public IEnumerable<Rating>? Ratings { get; set; }
     }
 }

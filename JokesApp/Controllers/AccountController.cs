@@ -101,8 +101,10 @@ namespace JokesApp.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
         public async Task<IActionResult> Details()
         {
+            //user manager
             var curUser = _contextAccessor.HttpContext.User.GetUserId();
             var user = await _userService.GetUserById(curUser);
             if (curUser == null)

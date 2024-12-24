@@ -1,4 +1,5 @@
-﻿using JokesApp.Interfaces;
+﻿using JokesApp.Data.Enum;
+using JokesApp.Interfaces;
 using JokesApp.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,15 @@ namespace JokesApp.Repository
         public async Task<Joke> GetByIdAsync(int id)
         {
             return await _context.Jokes.FirstOrDefaultAsync(j => j.Id == id);
+        }
+
+        public async Task<IEnumerable<Joke>> GetFilteredJokes(string category)
+        {
+            if (Enum.TryParse(category, true, out JokesCategory jokesCategory))
+            {
+                return await _context.Jokes.Include(j => j.Ratings).Where(i => i.Category == jokesCategory).ToListAsync();
+            }
+            return Enumerable.Empty<Joke>();
         }
 
         public async Task<bool> SaveAsync()

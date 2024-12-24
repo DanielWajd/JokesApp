@@ -1,4 +1,5 @@
-﻿using JokesApp.Models;
+﻿using JokesApp.Data.Enum;
+using JokesApp.Models;
 
 namespace JokesApp.Interfaces
 {
@@ -10,5 +11,6 @@ namespace JokesApp.Interfaces
         Task<bool> UpdateAsync(Joke joke); 
         Task<bool> DeleteAsync(Joke joke); 
         Task<bool> SaveAsync();
+        Task<IEnumerable<Joke>> GetFilteredJokes(string category);
     }
 }
