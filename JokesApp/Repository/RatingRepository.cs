@@ -40,7 +40,7 @@ namespace JokesApp.Repository
 
         public async Task<List<Rating>> GetRatingsByJokeIdAsync(int jokeId)
         {
-            return await _context.Ratings.Where(r => r.JokeId == jokeId).ToListAsync();
+            return await _context.Ratings.Where(r => r.JokeId == jokeId).Include(r => r.User).ToListAsync();
         }
 
         public async Task<bool> SaveAsync()

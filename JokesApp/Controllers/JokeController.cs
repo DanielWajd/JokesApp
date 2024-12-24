@@ -20,6 +20,7 @@ namespace JokesApp.Controllers
             _userJokeService = userJokeService;
             _contextAccessor = httpContextAccessor;
         }
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var jokes = await _jokeService.GetAll();
@@ -36,6 +37,7 @@ namespace JokesApp.Controllers
 
             return View(jokeViewModels);
         }
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var joke = await _jokeService.GetByIdAsync(id);
@@ -61,6 +63,7 @@ namespace JokesApp.Controllers
 
             return View(viewModel);
         }
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             var curUserId = _contextAccessor.HttpContext.User.GetUserId();
@@ -108,7 +111,7 @@ namespace JokesApp.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var joke = await _jokeService.GetByIdAsync(id);
@@ -168,6 +171,21 @@ namespace JokesApp.Controllers
             }
             await _jokeService.DeleteAsync(joke);
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> FilterJokes(string category)
+        {
+            var jokes = await _jokeService.GetFilteredJokes(category);
+            var jokeViewModel = jokes.Select(joke => new JokeIndexViewModel
+            {
+                Id = joke.Id,
+                Category = joke.Category,
+                JokeContent = joke.JokeContent,
+                CreatedAt = joke.CreatedAt,
+                AverageRating = joke.Ratings.Any() ? joke.Ratings.Average(r => r.RatingValue) : 0,
+                RatingsCount = joke.Ratings.Count()
+            }).ToList();
+            return View("Index", jokeViewModel);
         }
     }
 }
