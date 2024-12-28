@@ -50,6 +50,13 @@ namespace JokesApp.Controllers
             var averageRating = ratings.Any() ? ratings.Average(r => r.RatingValue) : 0;
             var ratingsCount = ratings.Count();
 
+            int? userRating = null; 
+            if (User.Identity.IsAuthenticated) 
+            {
+                var userId = _contextAccessor.HttpContext.User.GetUserId();
+                var rating = ratings.FirstOrDefault(r => r.UserId == userId); 
+                userRating = rating?.RatingValue;
+            }
             var viewModel = new JokeDetailsViewModel
             {
                 JokeId = joke.Id,
@@ -58,7 +65,8 @@ namespace JokesApp.Controllers
                 CreatedAt = joke.CreatedAt,
                 AverageRating = averageRating,
                 RatingsCount = ratingsCount,
-                Ratings = ratings
+                Ratings = ratings,
+                UserRating = userRating
             };
 
             return View(viewModel);
