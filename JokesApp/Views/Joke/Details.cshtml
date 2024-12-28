@@ -23,23 +23,38 @@
 </div>
 @if (User.Identity.IsAuthenticated)
 {
-    <div class="mt-4 text-center">
-        <h3>Rate this Joke!</h3>
-        <form method="post" asp-controller="Rating" asp-action="Create">
-            <input type="hidden" name="JokeId" value="@Model.JokeId" />
-            <input type="hidden" id="RatingValue" name="RatingValue" value="0" />
-
-            <div class="star-rating">
-                <span class="star" data-value="1">&#9733;</span>
-                <span class="star" data-value="2">&#9733;</span>
-                <span class="star" data-value="3">&#9733;</span>
-                <span class="star" data-value="4">&#9733;</span>
-                <span class="star" data-value="5">&#9733;</span>
+    @if (Model.UserRating.HasValue)
+    {
+        <div class="mt-4 text-center">
+            <h3>Your Rating: </h3>
+            <div class="star-avarage-rating">
+                @for(int i=1; i<=5; i++)
+                {
+                    <span class="star-average @((i <= Model.UserRating.Value) ? "selected" : "")">&#9733;</span>
+                }
             </div>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4 text-center">
+            <h3>Rate this Joke!</h3>
+            <form method="post" asp-controller="Rating" asp-action="Create">
+                <input type="hidden" name="JokeId" value="@Model.JokeId" />
+                <input type="hidden" id="RatingValue" name="RatingValue" value="0" />
 
-            <button type="submit" class="btn btn-success mt-2">Submit Rating</button>
-        </form>
-    </div>
+                <div class="star-rating">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="star" data-value="5">&#9733;</span>
+                </div>
+
+                <button type="submit" class="btn btn-success mt-2">Submit Rating</button>
+            </form>
+        </div>
+    }
 }
 else
 {
