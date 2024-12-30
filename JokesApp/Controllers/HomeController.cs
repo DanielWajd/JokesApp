@@ -15,7 +15,7 @@ namespace JokesApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Joke");
         }
 
         public IActionResult Privacy()

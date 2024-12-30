@@ -54,5 +54,11 @@ namespace JokesApp.Repository
             _context.Jokes.Update(joke); 
             return await SaveAsync();
         }
+        public async Task<Joke> GetByIdWithUser(int id)
+        {
+            return await _context.Jokes
+                .Include(j => j.UserJokes) 
+                .FirstOrDefaultAsync(j => j.Id == id);
+        }
     }
 }

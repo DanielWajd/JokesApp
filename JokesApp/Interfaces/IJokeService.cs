@@ -12,5 +12,6 @@ namespace JokesApp.Interfaces
         Task<bool> DeleteAsync(Joke joke); 
         Task<bool> SaveAsync();
         Task<IEnumerable<Joke>> GetFilteredJokes(string category);
+        Task<Joke> GetByIdWithUser(int id);
     }
 }

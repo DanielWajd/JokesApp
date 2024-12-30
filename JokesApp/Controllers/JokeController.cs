@@ -122,11 +122,19 @@ namespace JokesApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var joke = await _jokeService.GetByIdAsync(id);
+            var joke = await _jokeService.GetByIdWithUser(id);
+            var curUser = _contextAccessor.HttpContext.User.GetUserId();
             if (joke == null)
             {
                 return View("Error");
             }
+            var userJoke = joke.UserJokes?.FirstOrDefault(uj=>uj.UserId==curUser);
+            
+            if (userJoke == null)
+            {
+                return View("Error");
+            }
+            
             var createJokeViewModel = new EditJokeViewModel
             {
                 Category = joke.Category,
@@ -154,8 +162,15 @@ namespace JokesApp.Controllers
         }
         public async Task<IActionResult> ConfirmDelete(int id)
         {
-            var joke = await _jokeService.GetByIdAsync(id);
+            var joke = await _jokeService.GetByIdWithUser(id);
+            var curUser = _contextAccessor.HttpContext.User.GetUserId();
             if (joke == null)
+            {
+                return View("Error");
+            }
+            var userJoke = joke.UserJokes?.FirstOrDefault(uj => uj.UserId == curUser);
+
+            if (userJoke == null)
             {
                 return View("Error");
             }
