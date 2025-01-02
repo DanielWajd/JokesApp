@@ -124,17 +124,20 @@ namespace JokesApp.Controllers
         {
             var joke = await _jokeService.GetByIdWithUser(id);
             var curUser = _contextAccessor.HttpContext.User.GetUserId();
+            var isAdmin = _contextAccessor.HttpContext.User.IsInRole("admin");
             if (joke == null)
             {
                 return View("Error");
             }
-            var userJoke = joke.UserJokes?.FirstOrDefault(uj=>uj.UserId==curUser);
-            
-            if (userJoke == null)
+            if (!isAdmin)
             {
-                return View("Error");
+                var userJoke = joke.UserJokes?.FirstOrDefault(uj => uj.UserId == curUser);
+
+                if (userJoke == null)
+                {
+                    return View("Error");
+                }
             }
-            
             var createJokeViewModel = new EditJokeViewModel
             {
                 Category = joke.Category,
@@ -164,15 +167,19 @@ namespace JokesApp.Controllers
         {
             var joke = await _jokeService.GetByIdWithUser(id);
             var curUser = _contextAccessor.HttpContext.User.GetUserId();
+            var isAdmin = _contextAccessor.HttpContext.User.IsInRole("admin");
             if (joke == null)
             {
                 return View("Error");
             }
-            var userJoke = joke.UserJokes?.FirstOrDefault(uj => uj.UserId == curUser);
-
-            if (userJoke == null)
+            if (!isAdmin)
             {
-                return View("Error");
+                var userJoke = joke.UserJokes?.FirstOrDefault(uj => uj.UserId == curUser);
+
+                if (userJoke == null)
+                {
+                    return View("Error");
+                }
             }
             var viewModel = new JokeDetailsViewModel
             {
