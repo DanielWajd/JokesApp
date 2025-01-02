@@ -91,9 +91,22 @@ namespace JokesApp.Controllers
             var newUserResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
 
             if (newUserResponse.Succeeded)
-                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+            {
+                
+                if (registerViewModel.UserType == UserType.Admin) 
+                {
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+                }
 
-            return RedirectToAction("Index", "Joke");
+                return RedirectToAction("Index", "Joke");
+            }
+
+            TempData["Error"] = "An error occurred while creating the user";
+            return View(registerViewModel);
         }
         [HttpPost]
         public async Task<IActionResult> Logout()
