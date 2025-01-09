@@ -49,6 +49,34 @@ namespace JokesApp.Controllers
 
             return RedirectToAction("Index", "Joke");
         }
-        
+        [HttpPost]
+        public async Task<IActionResult> Update(JokeDetailsViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var curUserId = _contextAccessor.HttpContext.User.GetUserId();
+
+            var existingRating = await _ratingService.GetRatingByUserAndJokeAsync(curUserId, model.JokeId);
+            if (existingRating == null)
+            {
+                return RedirectToAction("Details", "Joke", new { id = model.JokeId });
+            }
+
+            if (model.RatingValue.HasValue)
+            {
+                existingRating.RatingValue = model.RatingValue.Value;
+            }
+            else
+            {
+                existingRating.RatingValue = existingRating.RatingValue;
+            }
+
+            await _ratingService.UpdateAsync(existingRating);
+
+            return RedirectToAction("Index", "Joke");
+        }
     }
 }
