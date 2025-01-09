@@ -27,11 +27,21 @@
     {
         <div class="mt-4 text-center">
             <h3>Your Rating: </h3>
-            <div class="star-avarage-rating">
-                @for(int i=1; i<=5; i++)
-                {
-                    <span class="star-average @((i <= Model.UserRating.Value) ? "selected" : "")">&#9733;</span>
-                }
+            <div class="star-rating">
+                <form method="post" asp-controller="Rating" asp-action="Update">
+                    <input type="hidden" name="JokeId" value="@Model.JokeId" />
+                    <input type="hidden" id="RatingValue" name="RatingValue" value="@Model.UserRating.Value" />
+
+                    <div class="star-rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span class="star @((i <= Model.UserRating.Value) ? "selected" : "")"
+                                  data-value="@i">&#9733;</span>
+                        }
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-2">Update Rating</button>
+                </form>
             </div>
         </div>
     }
