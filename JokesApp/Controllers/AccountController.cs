@@ -52,11 +52,11 @@ namespace JokesApp.Controllers
                     }
                 }
                 
-                TempData["Error"] = "Złe hasło";
+                TempData["Error"] = "Wrong Password";
                 return View(loginViewModel);
             }
             //When User not found
-            TempData["Error"] = "Nie ma takiego użytkownika";
+            TempData["Error"] = "User not found";
             return View(loginViewModel);
         }
 

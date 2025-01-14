@@ -13,7 +13,7 @@
 <div class="mb-4">
     <form asp-controller="Joke" asp-action="FilterJokes" method="get" class="d-flex align-items-center">
         <select name="category" class="form-select me-2" aria-label="Select category">
-            <option value="" selected>All Categories</option>
+            <option value="" selected>All Jokes</option>
             @foreach (var jokeCategory in Enum.GetValues(typeof(JokesApp.Data.Enum.JokesCategory)))
             {
                 <option value="@jokeCategory">@jokeCategory</option>
