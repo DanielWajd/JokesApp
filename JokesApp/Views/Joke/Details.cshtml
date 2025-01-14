@@ -40,7 +40,7 @@
                         }
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-2">Update Rating</button>
+                    <button type="submit" class="btn btn-success mt-2">Update Rating</button>
                 </form>
             </div>
         </div>
@@ -68,7 +68,12 @@
 }
 else
 {
-    <h2>Log in to rate this joke! </h2>
+    <div class="mt-4 text-center">
+        <h2>Log in to rate this joke! </h2>
+        <form asp-controller="Account" asp-action="Login">
+            <button type="submit" class="btn btn-success btn-lg w-30">Login</button>
+        </form>
+    </div>
 }
 <h3 class="mt-6">Ratings</h3>
 @if (Model.Ratings != null && Model.Ratings.Any())
