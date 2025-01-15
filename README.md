@@ -1,6 +1,6 @@
 Aplikacja internetowa do postowania żartów i ich ocen.
 
-Użytkowik ma możliwość dzielenia się żartami z innymi użytkowikami aplikacji! Dodatkowo może on oceniać inne żarty.
+Użytkowik ma możliwość dzielenia się żartami z innymi użytkownikami aplikacji! Dodatkowo może on oceniać inne żarty.
 Posiada możliwość edycji i usuwania kawałów.
 
 Uruchamianie aplikacji:
@@ -24,9 +24,9 @@ Uruchamianie aplikacji:
         }
     },
     "AllowedHosts": "*"
-}
-  6. Otworzyć konsole pakietów NuGet i zaktualizować baze danych poleceniem : ```"Update-Database"```
-  7. Uruchomić aplikacje zielonym przyciskiem
-  8. Powinno uruchomić się okno przeglądarki
-  9. Po utworzeniu konta / zalogowaniu użytkowik może swobodnie dodawać żarty i je edytować
+
+  5. Otworzyć konsole pakietów NuGet i zaktualizować baze danych poleceniem : ```"Update-Database"```
+  6. Uruchomić aplikacje zielonym przyciskiem
+  7. Powinno uruchomić się okno przeglądarki
+  8. Po utworzeniu konta / zalogowaniu użytkownik może swobodnie dodawać żarty i je edytować
 
