@@ -13,7 +13,8 @@ Uruchamianie aplikacji:
        - Microsoft.EntityFrameworkCore.SqlServer  9.0.0
        - Microsoft.EntityFrameworkCore.Tools  9.0.0
   4. Dodać do projektu plik "appsettings.json", z connection stringiem do bazy danych, gdyż z kwesti bezpieczeństwa repozytorium go nie zawiera. Przykład pliku:
-     ```{
+     ```
+     {
     "ConnectionStrings": {
         "DefaultConnection": "[nazwa];Trusted_Connection=True;TrustServerCertificate=True;"
     },
